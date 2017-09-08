@@ -22580,7 +22580,7 @@ var Autocomplete = function (_React$Component) {
 
       var names = this.props.names;
       names = names.filter(function (name) {
-        return name.indexOf(_this2.state.inputVal) !== -1;
+        return name.toLowerCase().indexOf(_this2.state.inputVal.toLowerCase()) !== -1;
       });
       names = names.map(function (name) {
         return _react2.default.createElement(

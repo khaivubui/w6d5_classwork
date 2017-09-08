@@ -16,7 +16,10 @@ class Autocomplete extends React.Component {
 
   render () {
     let names = this.props.names;
-    names = names.filter(name => name.indexOf(this.state.inputVal) !== -1);
+    names = names.filter(name => (
+      name.toLowerCase().indexOf(
+        this.state.inputVal.toLowerCase()
+      ) !== -1));
     names = names.map(name => (
       <li key={name}>{name}</li>
     ));
