@@ -30,7 +30,7 @@ class Weather extends React.Component {
         console.log(res);
         this.setState({
           city: res.list[0].name,
-          temp: res.list[0].main.temp
+          temp: `${res.list[0].main.temp} \xB0F`
         });
       };
 
@@ -51,7 +51,7 @@ class Weather extends React.Component {
         </div>
         <div>
           {this.state.city}<br/>
-          {this.state.temp} &#8457;
+          {this.state.temp}
         </div>
       </div>
     );
