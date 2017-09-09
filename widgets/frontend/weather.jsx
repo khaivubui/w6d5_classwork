@@ -11,11 +11,11 @@ class Weather extends React.Component {
 
   componentDidMount () {
     navigator.geolocation.getCurrentPosition((pos) => {
-      console.log(pos);
+      // console.log(pos);
       const lat = pos.coords.latitude;
       const long = pos.coords.longitude;
-      console.log(lat);
-      console.log(long);
+      // console.log(lat);
+      // console.log(long);
 
       const request = new XMLHttpRequest();
       request.open(
@@ -27,7 +27,7 @@ class Weather extends React.Component {
       );
       request.onload = () => {
         const res = JSON.parse(request.responseText);
-        console.log(res);
+        // console.log(res);
         this.setState({
           city: res.list[0].name,
           temp: `${res.list[0].main.temp} \xB0F`

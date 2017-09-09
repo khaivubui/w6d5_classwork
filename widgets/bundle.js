@@ -22305,6 +22305,10 @@ var _autocomplete = __webpack_require__(188);
 
 var _autocomplete2 = _interopRequireDefault(_autocomplete);
 
+var _tabs = __webpack_require__(189);
+
+var _tabs2 = _interopRequireDefault(_tabs);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22327,9 +22331,14 @@ var Root = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        null,
-        _react2.default.createElement(_clock2.default, null),
-        _react2.default.createElement(_weather2.default, null),
+        { className: 'root' },
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(_clock2.default, null),
+          _react2.default.createElement(_weather2.default, null),
+          _react2.default.createElement(_tabs2.default, { tabs: Root.TABS })
+        ),
         _react2.default.createElement(_autocomplete2.default, { names: Root.NAMES })
       );
     }
@@ -22339,6 +22348,17 @@ var Root = function (_React$Component) {
 }(_react2.default.Component);
 
 Root.NAMES = ['Josefa Harrison', 'Xuan Malson', 'Robbi Eisele', 'Jodi Wieland', 'Ricarda Seeman', 'Yessenia Belford', 'Francie Claw', 'Pasquale Kugler', 'Lloyd Worden', 'Noe Canino'];
+
+Root.TABS = [{
+  title: 'Apple',
+  content: 'The apple tree (Malus pumila, commonly and erroneously called Malus domestica) is a deciduous tree in the rose family best known for its sweet, pomaceous fruit, the apple. It is cultivated worldwide as a fruit tree, and is the most widely grown species in the genus Malus.'
+}, {
+  title: 'Banana',
+  content: 'The banana is an edible fruit – botanically a berry – produced by several kinds of large herbaceous flowering plants in the genus Musa. In some countries, bananas used for cooking may be called plantains, in contrast to dessert bananas.'
+}, {
+  title: 'Cranberry',
+  content: 'Cranberries are a group of evergreen dwarf shrubs or trailing vines in the subgenus Oxycoccus of the genus Vaccinium. In Britain, cranberry may refer to the native species Vaccinium oxycoccos, while in North America, cranberry may refer to Vaccinium macrocarpon.'
+}];
 
 exports.default = Root;
 
@@ -22474,17 +22494,17 @@ var Weather = function (_React$Component) {
       var _this2 = this;
 
       navigator.geolocation.getCurrentPosition(function (pos) {
-        console.log(pos);
+        // console.log(pos);
         var lat = pos.coords.latitude;
         var long = pos.coords.longitude;
-        console.log(lat);
-        console.log(long);
+        // console.log(lat);
+        // console.log(long);
 
         var request = new XMLHttpRequest();
         request.open('GET', 'http://api.openweathermap.org/data/2.5/' + ('find?lat=' + lat + '&lon=' + long) + '&APPID=7f05b3609477cf0d9f585ed4cc16965c' + '&units=imperial');
         request.onload = function () {
           var res = JSON.parse(request.responseText);
-          console.log(res);
+          // console.log(res);
           _this2.setState({
             city: res.list[0].name,
             temp: res.list[0].main.temp + ' \xB0F'
@@ -22609,6 +22629,93 @@ var Autocomplete = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = Autocomplete;
+
+/***/ }),
+/* 189 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(183);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Tabs = function (_React$Component) {
+  _inherits(Tabs, _React$Component);
+
+  function Tabs() {
+    _classCallCheck(this, Tabs);
+
+    var _this = _possibleConstructorReturn(this, (Tabs.__proto__ || Object.getPrototypeOf(Tabs)).call(this));
+
+    _this.state = {
+      selected: 0
+    };
+    _this.changeTab = _this.changeTab.bind(_this);
+    return _this;
+  }
+
+  _createClass(Tabs, [{
+    key: 'changeTab',
+    value: function changeTab(e) {
+      var selected = parseInt(e.target.getAttribute('data'));
+      this.setState({ selected: selected });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var tabs = this.props.tabs;
+
+      var titles = tabs.map(function (tab, index) {
+        return _react2.default.createElement(
+          'li',
+          { key: tab.title,
+            className: index === _this2.state.selected ? 'selected' : '',
+            onClick: _this2.changeTab,
+            data: index },
+          tab.title
+        );
+      });
+      var content = tabs[this.state.selected].content;
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'tabs' },
+        _react2.default.createElement(
+          'ul',
+          null,
+          titles
+        ),
+        _react2.default.createElement(
+          'article',
+          null,
+          content
+        )
+      );
+    }
+  }]);
+
+  return Tabs;
+}(_react2.default.Component);
+
+exports.default = Tabs;
 
 /***/ })
 /******/ ]);
